@@ -1,16 +1,14 @@
-import './App.css';
-
 function PaletteDisplay() {
   return (
     <>
-      <div className="colors-visual">
+      <div className="">
         <div>RED</div>
         <div>BLACK</div>
         <div>YELLOW</div>
         <div>GREEN</div>
         <div>PURPLE</div>
       </div>
-      <div className="colors-hex">
+      <div className="">
         <div>#F55A5A</div>
         <div>#2B283A</div>
         <div>#FBF3AB</div>
@@ -23,11 +21,14 @@ function PaletteDisplay() {
 
 function ControlBar() {
   return (
-    <div>
-      <form>
-        <input type="color"/>
-        <label htmlFor="scheme">Select a scheme:</label>
-        <select name="scheme" id="scheme">
+    <div className="flex justify-center items-center w-full h-22.5">
+      <form className="flex justify-between w-full gap-3 p-5">
+        <input type="color" className="shrink-0 h-10" />
+        <select
+          className="h-10 w-full border border-gray-300 rounded-md px-2 py-2 text-gray-700 cursor-pointer"
+          name="scheme"
+          id="scheme"
+        >
           <option value="monochrome">Monochrome</option>
           <option value="monochrome-dark">Monochrome-dark</option>
           <option value="monochrome-light">Monochrome-light</option>
@@ -36,7 +37,13 @@ function ControlBar() {
           <option value="analogic-complement">Analogic-complement</option>
           <option value="triad">Triad</option>
         </select>
-        <button type="submit" value="Submit">Get color scheme</button>
+        <button
+          type="button"
+          value=""
+          className="h-10 px-4 shrink-0 border border-gray-300 rounded-md text-xs"
+        >
+          Get color scheme
+        </button>
       </form>
     </div>
   );
@@ -44,7 +51,7 @@ function ControlBar() {
 
 function ColorSchemeGenerator({ colors }) {
   return (
-    <div>
+    <div className="w-137.5 h-137.5 bg-white rounded-2xl shadow-lg">
       <ControlBar />
       <PaletteDisplay colors={colors} />
     </div>
@@ -62,5 +69,9 @@ const COLORS = [
 ];
 
 export default function App() {
-  return <ColorSchemeGenerator colors={COLORS} />;
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <ColorSchemeGenerator colors={COLORS} />
+    </div>
+  );
 }
