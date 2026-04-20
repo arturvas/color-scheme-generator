@@ -6,3 +6,11 @@
   place-items: center;
   flex-grow: 1;
 }
+
+
+
+.colors-visual, .colors-hex {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+}
