@@ -1,21 +1,56 @@
 import { useState } from 'react';
 
-function PaletteDisplay() {
+function PaletteDisplay({ scheme }) {
+  // const COLORS = [
+  //   {
+  //     mode: 'monochrome',
+  //     colors: { hex: { value: ['#F55A5A', '#C44444', '#962E2E', '#6B1E1E', '#3D0A0A'] } },
+  //   },
+  //   {
+  //     mode: 'monochrome-dark',
+  //     colors: { hex: { value: ['#2B0A0A', '#4A1010', '#6B1E1E', '#8C2C2C', '#AE3A3A'] } },
+  //   },
+  //   {
+  //     mode: 'monochrome-light',
+  //     colors: { hex: { value: ['#F55A5A', '#F77A7A', '#F99A9A', '#FBBABA', '#FDDADA'] } },
+  //   },
+  //   {
+  //     mode: 'analogic',
+  //     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#F5F55A', '#5AF55A', '#5A5AF5'] } },
+  //   },
+  //   {
+  //     mode: 'complement',
+  //     colors: { hex: { value: ['#F55A5A', '#5AF5F5', '#3ADADA', '#1ABABA', '#009A9A'] } },
+  //   },
+  //   {
+  //     mode: 'analogic-complement',
+  //     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#5AF5F5', '#5A5AF5', '#A55AF5'] } },
+  //   },
+  //   {
+  //     mode: 'triad',
+  //     colors: { hex: { value: ['#F55A5A', '#5AF55A', '#5A5AF5', '#F5F55A', '#F55AF5'] } },
+  //   },
+  // ];
+
   return (
     <div className="h-full flex flex-col">
       <div className="inline-grid grid-cols-5 w-full text-center flex-1">
-        <div style={{ backgroundColor: '#F55A5A' }}></div>
-        <div className="bg-black"></div>
-        <div className="bg-yellow-500"></div>
-        <div className="bg-green-500"></div>
-        <div className="bg-purple-500"></div>
+        {scheme != null ? (
+          scheme.colors.map((objColor) => {
+            return <div key={objColor.clean} style={{ backgroundColor: objColor.value }}></div>;
+          })
+        ) : (
+          <span>Choose a color</span>
+        )}
       </div>
       <div className="inline-grid items-center grid-cols-5 w-full text-center h-11.5">
-        <div>#F55A5A</div>
-        <div>#2B283A</div>
-        <div>#FBF3AB</div>
-        <div>#AAD1B6</div>
-        <div>#A626D3</div>
+        {scheme != null ? (
+          scheme.colors.map((colorTextHex) => {
+            return <div key={colorTextHex.clean}>{colorTextHex.value}</div>;
+          })
+        ) : (
+          <span></span>
+        )}
       </div>
     </div>
   );
@@ -108,37 +143,6 @@ function ColorSchemeGenerator() {
     </div>
   );
 }
-
-// const COLORS = [
-//   {
-//     mode: 'monochrome',
-//     colors: { hex: { value: ['#F55A5A', '#C44444', '#962E2E', '#6B1E1E', '#3D0A0A'] } },
-//   },
-//   {
-//     mode: 'monochrome-dark',
-//     colors: { hex: { value: ['#2B0A0A', '#4A1010', '#6B1E1E', '#8C2C2C', '#AE3A3A'] } },
-//   },
-//   {
-//     mode: 'monochrome-light',
-//     colors: { hex: { value: ['#F55A5A', '#F77A7A', '#F99A9A', '#FBBABA', '#FDDADA'] } },
-//   },
-//   {
-//     mode: 'analogic',
-//     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#F5F55A', '#5AF55A', '#5A5AF5'] } },
-//   },
-//   {
-//     mode: 'complement',
-//     colors: { hex: { value: ['#F55A5A', '#5AF5F5', '#3ADADA', '#1ABABA', '#009A9A'] } },
-//   },
-//   {
-//     mode: 'analogic-complement',
-//     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#5AF5F5', '#5A5AF5', '#A55AF5'] } },
-//   },
-//   {
-//     mode: 'triad',
-//     colors: { hex: { value: ['#F55A5A', '#5AF55A', '#5A5AF5', '#F5F55A', '#F55AF5'] } },
-//   },
-// ];
 
 export default function App() {
   return (
