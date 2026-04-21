@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function PaletteDisplay({ colors }) {
+function PaletteDisplay() {
   return (
-    <div className="h-full">
-      <div className="inline-grid grid-cols-5 w-full text-center h-[72%]">
+    <div className="h-full flex flex-col">
+      <div className="inline-grid grid-cols-5 w-full text-center flex-1">
         <div style={{ backgroundColor: '#F55A5A' }}></div>
         <div className="bg-black"></div>
         <div className="bg-yellow-500"></div>
@@ -21,12 +21,7 @@ function PaletteDisplay({ colors }) {
   );
 }
 
-function ControlBar({ schemeLoad }) {
-  const [hex, setHex] = useState('#ff5050');
-  const [mode, setMode] = useState('monochrome');
-  const [scheme, setScheme] = useState(schemeLoad);
-  const [loading, setLoading] = useState(false);
-
+function ControlBar({ fetchColors, hex, setHex, loading, setMode }) {
   const modes = [
     'monochrome',
     'monochrome-dark',
@@ -36,29 +31,6 @@ function ControlBar({ schemeLoad }) {
     'analogic-complement',
     'triad',
   ];
-
-  function fetchColors() {
-    setLoading(true);
-
-    const cleanHex = hex.replace('#', '');
-
-    fetch(`https://www.thecolorapi.com/scheme?hex=${cleanHex}&mode=${mode}`)
-      .then((res) => res.json())
-      .then((data) => {
-        return {
-          mode: data.mode,
-          colors: data.colors.map((color) => ({
-            value: color.hex.value,
-            clean: color.hex.clean,
-          })),
-        };
-      })
-      .then((cleanScheme) => {
-        setScheme(cleanScheme);
-        console.log(cleanScheme);
-        setLoading(false);
-      });
-  }
 
   return (
     <div className="flex justify-center items-center w-full h-22.5">
@@ -96,50 +68,82 @@ function ControlBar({ schemeLoad }) {
 
 function ColorSchemeGenerator() {
   const [scheme, setScheme] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hex, setHex] = useState('#ff5050');
+  const [mode, setMode] = useState('monochrome');
+
+  function fetchColors() {
+    setLoading(true);
+
+    const cleanHex = hex.replace('#', '');
+
+    fetch(`https://www.thecolorapi.com/scheme?hex=${cleanHex}&mode=${mode}`)
+      .then((res) => res.json())
+      .then((data) => {
+        return {
+          mode: data.mode,
+          colors: data.colors.map((color) => ({
+            value: color.hex.value,
+            clean: color.hex.clean,
+          })),
+        };
+      })
+      .then((cleanScheme) => {
+        setScheme(cleanScheme);
+        console.log(cleanScheme);
+        setLoading(false);
+      });
+  }
 
   return (
-    <div className="w-137.5 h-137.5 bg-white rounded-2xl shadow-lg">
-      <ControlBar schemeLoad={setScheme} />
+    <div className="flex flex-col w-137.5 h-137.5 bg-white rounded-2xl shadow-lg">
+      <ControlBar
+        fetchColors={fetchColors}
+        loading={loading}
+        hex={hex}
+        setHex={setHex}
+        setMode={setMode}
+      />
       <PaletteDisplay scheme={scheme} />
     </div>
   );
 }
 
-const COLORS = [
-  {
-    mode: 'monochrome',
-    colors: { hex: { value: ['#F55A5A', '#C44444', '#962E2E', '#6B1E1E', '#3D0A0A'] } },
-  },
-  {
-    mode: 'monochrome-dark',
-    colors: { hex: { value: ['#2B0A0A', '#4A1010', '#6B1E1E', '#8C2C2C', '#AE3A3A'] } },
-  },
-  {
-    mode: 'monochrome-light',
-    colors: { hex: { value: ['#F55A5A', '#F77A7A', '#F99A9A', '#FBBABA', '#FDDADA'] } },
-  },
-  {
-    mode: 'analogic',
-    colors: { hex: { value: ['#F55A5A', '#F5A55A', '#F5F55A', '#5AF55A', '#5A5AF5'] } },
-  },
-  {
-    mode: 'complement',
-    colors: { hex: { value: ['#F55A5A', '#5AF5F5', '#3ADADA', '#1ABABA', '#009A9A'] } },
-  },
-  {
-    mode: 'analogic-complement',
-    colors: { hex: { value: ['#F55A5A', '#F5A55A', '#5AF5F5', '#5A5AF5', '#A55AF5'] } },
-  },
-  {
-    mode: 'triad',
-    colors: { hex: { value: ['#F55A5A', '#5AF55A', '#5A5AF5', '#F5F55A', '#F55AF5'] } },
-  },
-];
+// const COLORS = [
+//   {
+//     mode: 'monochrome',
+//     colors: { hex: { value: ['#F55A5A', '#C44444', '#962E2E', '#6B1E1E', '#3D0A0A'] } },
+//   },
+//   {
+//     mode: 'monochrome-dark',
+//     colors: { hex: { value: ['#2B0A0A', '#4A1010', '#6B1E1E', '#8C2C2C', '#AE3A3A'] } },
+//   },
+//   {
+//     mode: 'monochrome-light',
+//     colors: { hex: { value: ['#F55A5A', '#F77A7A', '#F99A9A', '#FBBABA', '#FDDADA'] } },
+//   },
+//   {
+//     mode: 'analogic',
+//     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#F5F55A', '#5AF55A', '#5A5AF5'] } },
+//   },
+//   {
+//     mode: 'complement',
+//     colors: { hex: { value: ['#F55A5A', '#5AF5F5', '#3ADADA', '#1ABABA', '#009A9A'] } },
+//   },
+//   {
+//     mode: 'analogic-complement',
+//     colors: { hex: { value: ['#F55A5A', '#F5A55A', '#5AF5F5', '#5A5AF5', '#A55AF5'] } },
+//   },
+//   {
+//     mode: 'triad',
+//     colors: { hex: { value: ['#F55A5A', '#5AF55A', '#5A5AF5', '#F5F55A', '#F55AF5'] } },
+//   },
+// ];
 
 export default function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <ColorSchemeGenerator colors={COLORS} />
+      <ColorSchemeGenerator />
     </div>
   );
 }
