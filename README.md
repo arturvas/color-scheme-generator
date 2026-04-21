@@ -1,16 +1,16 @@
-# React + Vite
+# Color Scheme Generator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React app that generates color palettes from a chosen color and scheme mode using the [The Color API](https://www.thecolorapi.com/).
 
-Currently, two official plugins are available:
+## Skills practiced
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **`useState`** — managing color input, scheme mode, fetched palette, and loading state
+- **`fetch`** — calling the Color API and chaining `.then()` to parse and transform the response
+- **`Array.map`** — rendering scheme mode options, palette swatches, and hex labels from arrays
+- **Tailwind CSS** — utility-first styling for layout, colors, and responsive design without writing custom CSS
 
-## React Compiler
+## How it works
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Pick a color and a scheme mode (monochrome, complement, triad, etc.)
+2. Click **Get color scheme**
+3. The app fetches from `https://www.thecolorapi.com/scheme?hex=<hex>&mode=<mode>` and displays 5 swatches with their hex codes
